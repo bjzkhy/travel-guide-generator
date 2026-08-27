@@ -1,0 +1,188 @@
+# ⚠️ 演示数据：以下为示例占位内容，非真实行程，请勿直接用于出行安排。
+# ============================================================
+# travel-guide-generator 示例配置（沪杭亲子四日游）
+# 用法: python scripts/build.py --config references/config_example.yaml --out guide.html --imgdir assets/img
+# 图片: 运行前需把下列 img key 对应的图放到 assets/img/{key}.jpg/png
+#
+# 【信息完整度三态】transport/hotels 每项的 confirmed 字段：
+#   true  = 已订/已出票 → 「✅ 确定出行」绿徽章
+#   false = 候选(携程查到的未订项) → 「备选」灰徽章
+#   省略/null = 未填 → 「⏳ 待确认」黄徽章（框架态）
+# 【混合策略默认行为】用户只给 目的地+日期+人数 时：
+#   交通 → ctrip-wendao 查候选回填(confirmed:false 标备选)；
+#   酒店 → 不联网查，留空 → 自动顶部「初稿」横幅 + 待确认占位卡。
+#   (注: meta.draft 未设时，build 会按"酒店留空/交通全候选"自动推断初稿态)
+# ============================================================
+
+meta:
+  title: "示例·沪杭亲子四日游攻略（演示）"
+  depart_city: "天津"
+  cities: ["上海", "杭州"]
+  start_date: "2026-08-10"
+  end_date: "2026-08-13"
+  travelers: "一家四口出行（含两名儿童，演示）"
+  travel_mode: "飞机往返"
+  tabs: ["🏙️ 上海 8/10-11", "🍃 杭州 8/12", "✈️ 返程 8/13"]
+  weather_note: "天气为客观预报，临近出发请以实时预报为准"
+  header_bg: "header_airplane"
+  footer: "本攻略由 travel-guide-generator 生成 · 城际交通与酒店链接跳转携程"
+
+# 各模块开关（按需勾选）
+modules:
+  transport: true
+  hotels: true
+  budget: true
+  timeline: true
+  tips: true
+  food: true
+  route: true
+  highlights: true
+
+# 整体路线图（节点-连线可视化；nodes 顺序即动线，links[i] 接在 nodes[i] 与 nodes[i+1] 之间）
+# mode=图标, carrier=航班号/车次(含运营方或车型), dur=出发→到达·时长
+# ticketed: 省略时自动取对应 transport[].confirmed(城市对+类型匹配)；显式 true 显示「✅ 已出票」
+# line_cls: "" 去程(蓝) / "hz" 高铁(蓝绿) / "back" 返程(绿蓝)；node.accent="hz" 给杭州节点绿色环
+route:
+  note: "四日动线总图：飞机往返 + 高铁 G1377 复兴号串联"
+  nodes:
+    - {city: "天津", code: "TSN", when: "8/10 出发", img: "tianjin_landmark"}
+    - {city: "上海", code: "SHA", when: "D1–D2 · 2晚", img: "shanghai_landmark"}
+    - {city: "杭州", code: "HGH", when: "D3–D4 · 1晚", img: "hangzhou_landmark", accent: "hz"}
+    - {city: "天津", code: "TSN", when: "8/13 返程", img: "tianjin_landmark"}
+  links:
+    - {mode: "✈️", carrier: "国航 CA2839", dur: "08:15→10:45 · 2h30m", ticketed: true, line_cls: ""}
+    - {mode: "🚄", carrier: "G1377 复兴号", dur: "09:30→10:25 · 55分钟", ticketed: true, line_cls: "hz"}
+    - {mode: "✈️", carrier: "国航 CA2848", dur: "13:15→15:30 · 2h15m", ticketed: true, line_cls: "back"}
+  stats:
+    - {value: "≈2300 km", label: "飞机+高铁串联"}
+    - {value: "4天3晚", label: "8/10 – 8/13"}
+    - {value: "2座城", label: "上海 · 杭州"}
+    - {value: "14处", label: "亲子打卡点"}
+
+# 城际交通推荐（img = 目的地地标图 key）
+transport:
+  - {type: flight, from: "天津", to: "上海", date: "2026-08-10", flight_no: "CA2839", cabin: "公务舱", confirmed: true, duration: "2小时30分", price: "已出票", note: "天津滨海T2 → 上海浦东T2", img: "shanghai_landmark"}
+  - {type: flight, from: "天津", to: "上海", date: "2026-08-10", flight_no: "GS7881", cabin: "经济舱", confirmed: false, duration: "2小时40分", price: "¥450起", note: "备选班次", img: "shanghai_landmark"}
+  - {type: train, from: "上海", to: "杭州", date: "2026-08-12", confirmed: true, duration: "1小时", price: "¥73-85", note: "上海虹桥 → 杭州东，车次密集随到随走", img: "hangzhou_landmark"}
+  - {type: flight, from: "杭州", to: "天津", date: "2026-08-13", flight_no: "CA2848", cabin: "经济舱", confirmed: true, duration: "2小时15分", price: "已出票", note: "杭州萧山T4 → 天津滨海T2", img: "tianjin_landmark"}
+  - {type: flight, from: "杭州", to: "天津", date: "2026-08-13", flight_no: "MF8229", cabin: "经济舱", confirmed: false, duration: "2小时30分", price: "¥480起", note: "备选班次", img: "tianjin_landmark"}
+
+# 酒店推荐（confirmed=true 打确定出行徽章；hotel_id 填真实值可跳详情页直链）
+hotels:
+  - {name: "波特曼丽思卡尔顿", city: "上海", confirmed: true, area: "南京西路", price: "¥1800起/晚", note: "已订，核心位置步行可达景点", img: "portman"}
+  - {name: "静安香格里拉", city: "上海", confirmed: false, area: "南京西路/静安寺", price: "¥1500起/晚", note: "备选", img: "jingan_shangri"}
+  - {name: "亚朵(南京西路)", city: "上海", confirmed: false, area: "南京西路", price: "¥800起/晚", note: "性价比备选", img: "atour"}
+  - {name: "西湖柳莺里酒店", city: "杭州", confirmed: true, area: "西湖边", price: "¥1200起/晚", note: "已订，步行到西湖", img: "liuyingli"}
+  - {name: "桔子水晶(湖滨银泰)", city: "杭州", confirmed: false, area: "湖滨", price: "¥700起/晚", note: "备选", img: "orange_crystal"}
+  - {name: "城中香格里拉", city: "杭州", confirmed: false, area: "武林广场", price: "¥1100起/晚", note: "备选", img: "city_shangri"}
+
+# 预算估算（合计自动累加每行首个数）
+budget:
+  - {cat: "交通", amount: "¥5,500-9,800", note: "往返机票+高铁+市内"}
+  - {cat: "住宿", amount: "¥4,200-6,800", note: "波特曼2晚+柳莺里1晚"}
+  - {cat: "门票", amount: "¥3,300-3,500", note: "自然博物馆/水族馆/登高/灵隐/西湖/宋城"}
+  - {cat: "餐饮", amount: "¥2,400-4,000", note: "4人×4天"}
+  - {cat: "伴手礼/杂项", amount: "¥800-1,500", note: "—"}
+
+# 完整时间轴（photo = 对应图片 key）
+timeline:
+  - day: 1
+    city: "上海"
+    date: "2026-08-10"
+    weather: "多云 27~31℃ 南风2级"
+    items:
+      - {time: "上午 08:15", title: "天津✈上海", desc: "国航 CA2839 08:15起飞，10:45抵达上海浦东T2。天津滨海T2出发，公务舱含30KG行李。", photo: "airport_tianjin", city: "上海"}
+      - {time: "上午 10:45", title: "入住酒店 · 波特曼丽思卡尔顿", desc: "南京西路核心位置，步行可达多处景点，先歇脚放行李。", photo: "hotel_portman", city: "上海"}
+      - {time: "下午 14:00", title: "上海自然博物馆", desc: "恐龙骨架+生命演化，亲子必去，提前公众号预约16:00前入场。", photo: "natural_history", price: "¥30/人", city: "上海"}
+      - {time: "下午 16:30", title: "新天地", desc: "石库门建筑+咖啡街区，轻松散步。", photo: "xintiandi", city: "上海"}
+      - {time: "晚上 19:30", title: "外滩夜景", desc: "万国建筑群+浦东天际线，必看。", photo: "bund", city: "上海"}
+  - day: 2
+    city: "上海"
+    date: "2026-08-11"
+    weather: "多云 27~31℃"
+    items:
+      - {time: "上午 09:00", title: "上海海洋水族馆", desc: "海底隧道，提前网购优惠票避开高峰。", photo: "aquarium", price: "¥160/人", city: "上海"}
+      - {time: "上午 11:30", title: "陆家嘴登高", desc: "东方明珠/上海中心观景，俯瞰黄浦江。", photo: "lujiazui", price: "¥180/人", city: "上海"}
+      - {time: "下午 14:00", title: "豫园 · 城隍庙", desc: "古典园林+老城厢小吃。", photo: "yuyuan", city: "上海"}
+      - {time: "下午 17:00", title: "南京西路", desc: "商圈购物+顺路回酒店歇脚。", photo: "nanjing_west", city: "上海"}
+  - day: 3
+    city: "杭州"
+    date: "2026-08-12"
+    weather: "小雨 27~34℃"
+    items:
+      - {time: "上午 09:00", title: "灵隐寺", desc: "千年古刹，台阶多，9岁注意；寺内免费三支清香。", photo: "lingyin", city: "杭州"}
+      - {time: "中午 12:00", title: "午餐 · 知味观(湖滨总店)", desc: "小笼包/猫耳朵，人均¥30-50，靠近西湖。", photo: "zhiweiguan", city: "杭州"}
+      - {time: "下午 14:00", title: "河坊街", desc: "老街小吃，伴手礼认准九芝斋等老字号。", photo: "hefang", city: "杭州"}
+      - {time: "下午 13:30", title: "西湖(断桥/白堤/雷峰塔)", desc: "官方西湖游船公司，认准正规不含登岛短程。", photo: "west_lake", city: "杭州"}
+      - {time: "晚上 20:30", title: "湖滨银泰in77 / 西湖夜景", desc: "宋城千古情结束后逛吃+夜景。", photo: "hubin_in77", city: "杭州"}
+  - day: 4
+    city: "返程"
+    date: "2026-08-13"
+    weather: "小雨转阴 27~34℃"
+    items:
+      - {time: "上午 08:00", title: "早餐 · 方老大面馆", desc: "茄汁拌川，最后一碗杭州拌川。", photo: "fanglaoda", city: "杭州"}
+      - {time: "上午 09:30", title: "前往杭州萧山机场", desc: "退房→T4，地铁/打车40-50分，返程13:15建议提前2小时到。", photo: "airport_hangzhou", city: "返程"}
+      - {time: "下午 13:15", title: "飞机返津 · CA2848", desc: "13:15起飞15:30抵天津滨海T2，经济舱。", photo: "airport_tianjin_arrive", city: "返程"}
+
+# 实用贴士
+tips:
+  kids:
+    - "行李：折叠推车（9岁可坐可放物）、防晒衣、小风扇、水壶、防走失手环"
+    - "9岁儿子部分项目需注意年龄/身高（宋城演出、灵隐台阶），提前确认政策"
+    - "13岁女儿可玩刺激项目，安排她带弟弟排队互动，培养责任感"
+    - "每天留午休时间，避免孩子中暑崩溃"
+    - "备常用药：退烧、肠胃、创可贴、驱蚊液；随身小零食应对排队饥饿"
+    - "给孩子备一本旅行手账，每天画/贴一张，旅行更有记忆点"
+  booking:
+    - "上海自然博物馆：提前公众号预约，16:00前入场"
+    - "上海海洋水族馆：可提前网购优惠票，避开高峰时段"
+    - "宋城千古情：提前买票选场次"
+    - "杭州野生动物世界：可提前网购优惠票"
+  heat:
+    - "高温35°C+，户外景点尽量早上去"
+    - "多安排亲水/室内：海洋水族馆、自然博物馆"
+    - "随身：遮阳伞、防晒霜、小风扇、充足饮水"
+    - "8月可能有阵雨，带轻便雨具"
+  pitfalls:
+    - "西湖私人游船多为短程绕湖不含登岛，认准官方西湖游船公司"
+    - "灵隐寺外香烛店溢价3-5倍，寺内免费三支清香"
+    - "河坊街杭州特产多义乌货，去九芝斋等老字号（九芝斋为杭州老字号）"
+    - "别在景区吃叫花鸡（多为冷冻鸡+香精），认准楼外楼"
+    - "机场/火车站黑车报价比网约车高2-3倍，用滴滴/高德"
+
+# 美食购物推荐（非景区、本地人常去）
+# 卡片式：每个 item 渲染为「上图下文」卡片。
+#   name 必填；desc 说明；emoji 可选（卡片标题前缀）；img 可选 = assets/img/{key}.jpg/png（每项独立配图，缺省回退分组 img）
+#   不填 img 时卡片仍可显示（纯文字卡片）；推荐每项配图以获得最佳效果。
+food:
+  - title: "上海 · 本帮味道"
+    items:
+      - {name: "大壶春", desc: "清水派生煎", emoji: "🥟"}
+      - {name: "鲜得来", desc: "排骨年糕", emoji: "🍢"}
+      - {name: "兰亭", desc: "红烧肉", emoji: "🍖"}
+      - {name: "人和馆", desc: "蟹粉捞饭", emoji: "🍚"}
+      - {name: "味香斋", desc: "麻酱拌面", emoji: "🍜"}
+  - title: "上海 · 手信"
+    items:
+      - {name: "国际饭店西饼屋", desc: "蝴蝶酥", emoji: "🦋"}
+      - {name: "光明邨", desc: "鲜肉月饼", emoji: "🥮"}
+      - {name: "沈大成", desc: "糕团", emoji: "🍡"}
+      - {name: "邵万生", desc: "糟醉货", emoji: "🍶"}
+      - {name: "大白兔/泰康", desc: "糖果饼干", emoji: "🍬"}
+  - title: "杭州 · 老底子杭味"
+    items:
+      - {name: "奎元馆", desc: "虾爆鳝面", emoji: "🍜"}
+      - {name: "菊英面馆", desc: "片儿川", emoji: "🍲"}
+      - {name: "福缘居", desc: "脆皮大肠", emoji: "🥓"}
+      - {name: "楼外楼", desc: "西湖醋鱼", emoji: "🐟"}
+      - {name: "新丰小吃", desc: "小笼/馄饨", emoji: "🥟"}
+      - {name: "蒋师傅酥鱼", desc: "酥鱼", emoji: "🐠"}
+  - title: "杭州 · 手信特产"
+    items:
+      - {name: "知味观糕点", desc: "绿豆糕/条头糕", emoji: "🍰"}
+      - {name: "九芝斋", desc: "麻糕/糕点（杭州老字号）", emoji: "🥮"}
+      - {name: "葱包桧", desc: "街头小吃", emoji: "🥞"}
+      - {name: "王星记扇子", desc: "非遗折扇", emoji: "🪭"}
+      - {name: "张小泉剪刀", desc: "老字号刀具", emoji: "✂️"}
+      - {name: "都锦生丝绸", desc: "丝织品", emoji: "🧣"}
+      - {name: "西湖龙井", desc: "认准品牌，景区路边慎买", emoji: "🍵"}

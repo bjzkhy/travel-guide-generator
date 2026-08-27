@@ -1,0 +1,185 @@
+# ⚠️ 演示数据：以下为示例占位内容，非真实行程，请勿直接用于出行安排。
+# ============================================================
+# travel-guide-generator 配置 · 北京-香港-澳门 4日游
+# 日期: 8.10入住香港 / 8.12入住澳门 / 8.13飞回北京
+# 用法: python scripts/build.py --config references/config_bj_hk_mo.yaml --out guide.html --imgdir assets/img
+# 图片: 运行前需把下列 img key 对应的图放到 assets/img/{key}.jpg/png
+# ============================================================
+
+meta:
+  title: "示例·北京-香港-澳门 4日游攻略（演示）"
+  depart_city: "北京"
+  cities: ["中国香港", "中国澳门"]
+  start_date: "2026-08-10"
+  end_date: "2026-08-13"
+  travelers: "一家四口出行（含两名儿童，演示）"
+  travel_mode: "飞机 + 港珠澳大桥/喷射飞航"
+  tabs: ["🇭🇰 香港 8/10-11", "🇲🇴 澳门 8/12", "✈️ 返程 8/13"]
+  weather_note: "天气为客观预报，临近出发请以实时预报为准；8月为台风高发期，请关注预警"
+  header_bg: "header_airplane"
+  footer: "本攻略由 travel-guide-generator 生成 · 城际交通与酒店链接跳转携程"
+  city_codes:
+    中国香港: "HKG"
+    中国澳门: "MFM"
+  city_ids:
+    中国香港: 71
+    中国澳门: 80
+
+# 各模块开关
+modules:
+  transport: true
+  hotels: true
+  budget: true
+  timeline: true
+  tips: true
+  food: true
+
+# 城际交通推荐（img = 目的地地标图 key）
+transport:
+  - {type: flight, from: "北京", to: "中国香港", date: "2026-08-10", flight_no: "CA111", cabin: "经济舱", confirmed: true, role: "去程", duration: "约3小时30分", price: "¥1,200起", note: "北京首都T3 → 香港国际机场T1，建议选早班机落地后有整下午", img: "hk_landmark"}
+  - {type: flight, from: "北京", to: "中国香港", date: "2026-08-10", flight_no: "CX345", cabin: "经济舱", confirmed: false, duration: "约3小时30分", price: "¥1,500起", note: "国泰航空备选班次", img: "hk_landmark"}
+  - {type: bus, from: "中国香港", to: "中国澳门", date: "2026-08-12", confirmed: true, role: "跨境", duration: "约40-60分", price: "金巴¥65 / 喷射飞航¥160", note: "港珠澳大桥金巴(香港口岸→澳门口岸，约40分) 或 喷射飞航(上环→氹仔，约1小时)", img: "macau_landmark", ctrip: "https://www.hzmb.gov.hk", btn_text: "官网查询 ›"}
+  - {type: flight, from: "中国澳门", to: "北京", date: "2026-08-13", flight_no: "NX002", cabin: "经济舱", confirmed: true, role: "返程", duration: "约3小时", price: "¥1,000起", note: "澳门国际机场 → 北京首都T3，澳门航空", img: "beijing_landmark"}
+  - {type: flight, from: "中国澳门", to: "北京", date: "2026-08-13", flight_no: "CA450", cabin: "经济舱", confirmed: false, duration: "约3小时10分", price: "¥1,200起", note: "国航备选班次", img: "beijing_landmark"}
+
+# 酒店推荐（checkin/checkout 用实际住宿日期；keyword 用于携程搜索预填）
+hotels:
+  - {name: "香港半岛酒店", city: "中国香港", confirmed: true, area: "尖沙咀", price: "¥2,800起/晚", note: "首选 · 维港海景、位置绝佳，步行可达星光大道/海港城", img: "peninsula", checkin: "2026-08-10", checkout: "2026-08-12", keyword: "香港半岛酒店"}
+  - {name: "香港九龙香格里拉", city: "中国香港", confirmed: false, area: "尖沙咀", price: "¥1,600起/晚", note: "备选 · 维港景、近地铁", img: "kowloon_shangri", checkin: "2026-08-10", checkout: "2026-08-12", keyword: "九龙香格里拉"}
+  - {name: "香港如心海景酒店", city: "中国香港", confirmed: false, area: "青衣/荃湾", price: "¥700起/晚", note: "性价比备选 · 近机场快线青衣站", img: "nina_tower", checkin: "2026-08-10", checkout: "2026-08-12", keyword: "如心海景酒店"}
+  - {name: "澳门威尼斯人度假区", city: "中国澳门", confirmed: true, area: "路氹", price: "¥1,200起/晚", note: "首选 · 一站式度假、室内运河、近官也街/巴黎人", img: "venetian", checkin: "2026-08-12", checkout: "2026-08-13", keyword: "威尼斯人度假区"}
+  - {name: "澳门巴黎人", city: "中国澳门", confirmed: false, area: "路氹", price: "¥1,000起/晚", note: "备选 · 铁塔景观、亲子友好", img: "parisian", checkin: "2026-08-12", checkout: "2026-08-13", keyword: "澳门巴黎人"}
+  - {name: "澳门新葡京酒店", city: "中国澳门", confirmed: false, area: "澳门半岛", price: "¥900起/晚", note: "备选 · 市中心、近大三巴/新马路", img: "grand_lisboa", checkin: "2026-08-12", checkout: "2026-08-13", keyword: "新葡京酒店"}
+
+# 预算估算（合计自动累加每行首个数）
+budget:
+  - {cat: "交通", amount: "¥4,000-6,000", note: "北京⇄香港/澳门往返机票 + 跨境交通 + 市内交通"}
+  - {cat: "住宿", amount: "¥4,000-6,700", note: "香港2晚 + 澳门1晚"}
+  - {cat: "门票", amount: "¥1,500-2,500", note: "迪士尼/旅游塔/表演"}
+  - {cat: "餐饮", amount: "¥2,000-3,200", note: "4人 × 4天"}
+  - {cat: "伴手礼/杂项", amount: "¥2,000-5,000", note: "手信、购物、小额现金"}
+
+# 完整时间轴（photo = 对应图片 key）
+timeline:
+  - day: 1
+    city: "中国香港"
+    date: "2026-08-10"
+    weather: "多云间雷阵雨 28~33℃"
+    items:
+      - {time: "上午 08:30", title: "北京✈香港", desc: "国航CA111 08:30起飞，约12:00抵香港国际机场T1。入境后乘机场快线(约24分钟)或A21巴士进尖沙咀。", photo: "airport_hk", city: "中国香港"}
+      - {time: "下午 14:00", title: "入住酒店 · 香港半岛酒店", desc: "尖沙咀核心位置，放行李休息，步行逛海港城、星光大道，沿海滨吹维港风。", photo: "peninsula", city: "中国香港"}
+      - {time: "傍晚 19:30", title: "维港夜景 · 幻彩咏香江", desc: "尖沙咀海滨看维港夜景，20:00「幻彩咏香江」灯光音乐汇演(免费)。", photo: "victoria_harbour", city: "中国香港", price: "免费"}
+  - day: 2
+    city: "中国香港"
+    date: "2026-08-11"
+    weather: "晴到多云 28~34℃"
+    items:
+      - {time: "上午 09:30", title: "香港迪士尼乐园", desc: "早到刷灰熊山谷、迷离大宅、城堡。官网买一日票更划算，避开正午暴晒。", photo: "disney", city: "中国香港", price: "¥639/人(一日票)"}
+      - {time: "下午 16:00", title: "太平山顶", desc: "中环搭山顶缆车登太平山，卢吉道步道俯瞰维港全景；下山顺逛中环半山自动扶梯。", photo: "peak", city: "中国香港", price: "缆车往返约¥88"}
+      - {time: "晚上 20:00", title: "中环 / 庙街夜市", desc: "兰桂芳小酌或油麻地庙街夜市吃煲仔饭、逛地摊。", photo: "mongkok", city: "中国香港"}
+  - day: 3
+    city: "中国澳门"
+    date: "2026-08-12"
+    weather: "多云 28~33℃"
+    items:
+      - {time: "上午 09:30", title: "香港 → 澳门", desc: "港珠澳大桥金巴(香港口岸→澳门口岸，约40分，¥65) 或 喷射飞航(上环→氹仔，约1小时，¥160)。", photo: "hzmb", city: "中国澳门"}
+      - {time: "中午 12:30", title: "入住酒店 · 威尼斯人", desc: "路氹一站式度假区，放行李稍作休整。", photo: "venetian", city: "中国澳门"}
+      - {time: "下午 15:00", title: "大三巴 + 议事亭前地", desc: "大三巴牌坊、恋爱巷、玫瑰圣母堂、仁慈堂大楼，老城区漫步拍照。", photo: "ruins", city: "中国澳门"}
+      - {time: "晚上 19:30", title: "路氹度假区夜景", desc: "威尼斯人室内运河、巴黎人铁塔、伦敦人，看表演逛美食广场。", photo: "cotai", city: "中国澳门"}
+  - day: 4
+    city: "返程"
+    date: "2026-08-13"
+    weather: "晴到多云 28~34℃"
+    items:
+      - {time: "上午 10:00", title: "澳门旅游塔", desc: "登塔俯瞰半岛与氹仔，可体验空中漫步/蹦极(胆大者)。", photo: "macau_tower", city: "中国澳门", price: "登塔约¥130"}
+      - {time: "中午 12:00", title: "路环 + 手信采购", desc: "路环渔村、安德鲁蛋挞路环总店、官也街小吃；钜记/咀香园买杏仁饼猪肉脯伴手礼。", photo: "colane", city: "中国澳门"}
+      - {time: "下午 15:00", title: "飞机返京 · NX002", desc: "酒店→机场(的士/AP1巴士)，约15:00起飞，约18:00抵北京首都T3，行程结束。", photo: "airport_bj", city: "返程"}
+
+# 实用贴士
+tips:
+  kids:
+    - "证件：港澳通行证 + 有效香港/澳门签注，必须提前办理（护照不能代替）"
+    - "通讯：提前开手机境外流量包/漫游，或到港买本地SIM；下载离线地图"
+    - "货币：备小额港币、澳门币现金；大额用银联/支付宝/微信，澳门元港币基本通用"
+    - "插头：英标G型转换插头(香港/澳门同款)，带拖线板更方便"
+    - "随身：折叠伞(防骤雨)、防晒霜、薄外套(室内冷气足)、舒适步行鞋"
+    - "给孩子备旅行手账，每天画/贴一张，旅行更有记忆点"
+  booking:
+    - "香港迪士尼：官网或携程提前购票，比现场便宜"
+    - "澳门旅游塔、威尼斯人表演：官网提前订，旺季现场常满"
+    - "酒店：8月为暑期旺季，尽早预订香港/澳门住宿"
+    - "香港机场快线：网上买有折扣，可连同市区交通票套票"
+  heat:
+    - "8月高温高湿(28-34℃)，多补水、勤涂防晒"
+    - "午后易雷阵雨，随身雨具；室外景点尽量早上去"
+    - "室内冷气强，备薄外套防感冒"
+    - "台风高发期，出发前关注香港/澳门天文台预警，预留改签余地"
+  pitfalls:
+    - "香港的士贵且难叫，优先港铁/叮叮车/巴士；澳门用免费穿梭巴士(Hotel Shuttle)最划算"
+    - "澳门赌场内「换钱党」勿理，用正规找换店/银行ATM"
+    - "大三巴周边手信认准钜记/咀香园，部分可讲价"
+    - "香港大部分餐厅加收10%服务费；澳门部分娱乐场所未满21岁禁入"
+    - "澳门元与港币基本1:1通用，但找零可能给澳门元，留意区分"
+
+# 美食购物推荐（非景区、本地人常去）
+food:
+  - title: "香港 · 必吃"
+    items:
+      - {name: "兰芳园", desc: "丝袜奶茶、猪扒包"}
+      - {name: "澳洲牛奶公司", desc: "炖奶、蛋白鲜奶"}
+      - {name: "泰昌饼家", desc: "蛋挞"}
+      - {name: "黄枝记", desc: "云吞面"}
+      - {name: "南屏雅叙", desc: "猪扒包、牛杂"}
+  - title: "香港 · 手信"
+    items:
+      - {name: "奇华饼家", desc: "老婆饼、曲奇"}
+      - {name: "泰昌饼家", desc: "蛋挞"}
+      - {name: "陈意斋", desc: "燕窝糕、虾子面"}
+  - title: "澳门 · 必吃"
+    items:
+      - {name: "安德鲁蛋挞", desc: "路环总店，酥皮蛋挞鼻祖"}
+      - {name: "玛嘉烈蛋挞", desc: "市区分店"}
+      - {name: "大利来记", desc: "猪扒包(氹仔官也街)"}
+      - {name: "黄枝记(澳门)", desc: "云吞面"}
+  - title: "澳门 · 手信"
+    items:
+      - {name: "钜记手信", desc: "杏仁饼、猪肉脯(认准正牌)"}
+      - {name: "咀香园", desc: "肉干、饼干"}
+
+# 整体路线图
+route:
+  line: "北京 ✈ 香港（约3h30m） → 🚌 澳门（港珠澳大桥约40分） → ✈ 北京（约3h），全程跨境"
+  districts:
+    - "香港 · 尖沙咀（住）· 迪士尼/太平山/维港"
+    - "澳门 · 路氹（住）· 大三巴/威尼斯人/路环"
+
+# 亲子景点推荐汇总
+highlights:
+  - {emoji: "🏰", name: "香港迪士尼", desc: "灰熊山谷/迷离大宅，亲子必去"}
+  - {emoji: "🌆", name: "太平山顶", desc: "缆车登顶俯瞰维港全景"}
+  - {emoji: "⛩️", name: "大三巴", desc: "牌坊+恋爱巷，老城区漫步"}
+  - {emoji: "🏛️", name: "威尼斯人", desc: "室内运河+表演，避暑首选"}
+  - {emoji: "🥧", name: "安德鲁蛋挞", desc: "路环总店酥皮蛋挞鼻祖"}
+  - {emoji: "🎡", name: "澳门旅游塔", desc: "登塔/蹦极，俯瞰半岛"}
+
+# 各模块引导语
+notes:
+  route: "出发前先看这一屏，建立空间认知。"
+  transport: "携程实时推荐 · 绿标「✅ 确定出行」为已订班次，灰标「备选」可灵活替换；跨境段走官网。"
+  hotels: "携程实时亲子酒店 · 绿标为已订酒店。"
+  budget: "4人出行参考，提前1个月出票可压到下限。"
+  timeline: "按天安排，上午/下午/晚上分段；带图项为必打卡。"
+  tips: "按港澳行程定制，行前准备务必提早。"
+  food: "只列非景区、本地人常去、真正当地特色的老字号。"
+  highlights: "全程最值得带娃去的6个地方，一眼收藏。"
+
+# 各模块收口提示
+tips_box:
+  route: "香港→澳门选港珠澳大桥金巴最省心（车次密、直达）；行李多可快递寄澳门酒店。"
+  transport: "暑期票价浮动大，儿童购票看身高/年龄双轨；机场到市区用网约车更透明。"
+  hotels: "亲子房提前确认加床/儿童洗漱；尖沙咀酒店旺季紧俏早订。"
+  budget: "机票为暑期参考价，提前1个月出票可压到下限；门票以官方公众号为准。"
+  timeline: "每天留午休，避免孩子中暑崩溃。"
+  tips: "带常用药+小零食，排队时不慌。"
+  food: "买杏仁饼认准正牌，低于市价太多必假；景区叫花鸡多为冷冻鸡。"
+  highlights: "迪士尼/旅游塔需提前预约，热门日一票难求。"

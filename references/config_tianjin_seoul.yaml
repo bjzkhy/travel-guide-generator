@@ -1,0 +1,164 @@
+# ⚠️ 演示数据：以下为示例占位内容，非真实行程，请勿直接用于出行安排。
+# 天津→首尔 购物美食亲子游（10.8-10.12，一家四口）
+# 混合策略：交通为携程候选班次(备选)，酒店为候选(待确认) → 初稿态
+meta:
+  title: "天津→首尔 购物美食亲子游攻略"
+  depart_city: "天津"
+  cities: ["首尔", "仁川"]
+  start_date: "2026-10-08"
+  end_date: "2026-10-12"
+  travelers: "一家四口（含两名儿童，演示）"
+  travel_mode: "飞机往返 · 购物逛街美食为主"
+  tabs: ["✈️ 10/1 天津→首尔", "🛍️ 10/2-4 首尔购物美食", "✈️ 10/5 首尔→天津"]
+  weather_note: "天气为客观预报，临近出发请以实时预报为准"
+  header_bg: "header_airplane"
+  footer: "本攻略由 travel-guide-generator 生成 · 城际交通与酒店链接跳转携程"
+  city_codes: {"天津": "TSN", "首尔": "SEL", "仁川": "ICN"}
+  city_ids: {"首尔": 1025, "天津": 31}
+
+modules:
+  transport: true
+  hotels: true
+  budget: true
+  timeline: true
+  tips: true
+  food: true
+  route: true
+  highlights: true
+
+route:
+  note: "五日动线总图：天津滨海机场 ⇄ 首尔仁川机场，落地即开启明洞购物美食之旅"
+  nodes:
+    - {city: "天津", code: "TSN", when: "10/8 出发", img: "tianjin_landmark"}
+    - {city: "首尔", code: "ICN", when: "D1–D5 · 4晚", img: "seoul_landmark", accent: "hz"}
+    - {city: "天津", code: "TSN", when: "10/12 返程", img: "tianjin_landmark"}
+  links:
+    - {mode: "✈️", carrier: "国航 CA171", dur: "09:00→11:50 · 约2小时", line_cls: ""}
+    - {mode: "✈️", carrier: "大韩 KE803", dur: "12:35→13:30 · 约2小时", line_cls: "back"}
+  stats:
+    - {value: "≈1100 km", label: "津→首尔直线距离"}
+    - {value: "5天4晚", label: "10/8 – 10/12"}
+    - {value: "1座城", label: "首尔 · 仁川"}
+    - {value: "10+处", label: "购物美食打卡"}
+
+transport:
+  - {type: flight, from: "天津", to: "首尔", date: "2026-10-08", flight_no: "CA171 国航", cabin: "经济舱", confirmed: false, duration: "约2小时", price: "¥1300起", note: "09:00天津T1→11:50仁川T1，落地全天可用", img: "seoul_landmark"}
+  - {type: flight, from: "天津", to: "首尔", date: "2026-10-08", flight_no: "KE806 大韩", cabin: "经济舱", confirmed: false, duration: "约2小时", price: "¥1500起", note: "11:30天津T1→14:20仁川T2", img: "seoul_landmark"}
+  - {type: flight, from: "天津", to: "首尔", date: "2026-10-08", flight_no: "OZ328 韩亚", cabin: "经济舱", confirmed: false, duration: "约2小时", price: "¥1300起", note: "10:55天津T1→13:30仁川T2", img: "seoul_landmark"}
+  - {type: flight, from: "天津", to: "首尔", date: "2026-10-08", flight_no: "GS7993 天津航空", cabin: "经济舱", confirmed: false, duration: "约1h40m", price: "¥1250起", note: "09:20天津T1→12:00仁川T1，票价最低", img: "seoul_landmark"}
+  - {type: flight, from: "首尔", to: "天津", date: "2026-10-12", flight_no: "KE803 大韩", cabin: "经济舱", confirmed: false, duration: "约2小时", price: "¥1100起", note: "12:35仁川T2→13:30天津T1，上午可最后采购", img: "tianjin_landmark"}
+  - {type: flight, from: "首尔", to: "天津", date: "2026-10-12", flight_no: "CA172 国航", cabin: "经济舱", confirmed: false, duration: "约2小时", price: "¥1100起", note: "12:45仁川T1→13:50天津T1", img: "tianjin_landmark"}
+  - {type: flight, from: "首尔", to: "天津", date: "2026-10-12", flight_no: "OZ327 韩亚", cabin: "经济舱", confirmed: false, duration: "约2小时", price: "¥900起", note: "08:55仁川T2→09:55天津T1，早班", img: "tianjin_landmark"}
+  - {type: flight, from: "首尔", to: "天津", date: "2026-10-12", flight_no: "GS7994 天津航空", cabin: "经济舱", confirmed: false, duration: "约2小时", price: "¥1000起", note: "13:35仁川T1→14:35天津T1", img: "tianjin_landmark"}
+
+hotels:
+  - {name: "明洞/南山 家庭酒店", city: "首尔", confirmed: false, area: "明洞", price: "¥900-1500/晚", note: "核心购物区，步行到明洞/南山，亲子友好", img: "seoul_landmark"}
+  - {name: "弘大 亲子民宿/酒店", city: "首尔", confirmed: false, area: "弘大", price: "¥600-1000/晚", note: "潮流街区，餐厅多，性价比高", img: "hongdae"}
+  - {name: "东大门 设计广场附近酒店", city: "首尔", confirmed: false, area: "东大门", price: "¥700-1100/晚", note: "夜市购物方便，年轻人多", img: "dongdaemun"}
+
+budget:
+  - {cat: "交通", amount: "¥8,000-13,000", note: "往返机票4人 + 仁川机场交通(AREX/大巴)"}
+  - {cat: "住宿", amount: "¥3,600-6,000", note: "4晚 家庭房/两间房"}
+  - {cat: "餐饮", amount: "¥3,200-5,000", note: "4人×5天，韩餐/烤肉/小吃"}
+  - {cat: "门票娱乐", amount: "¥1,500-2,500", note: "乐天世界/首尔塔/水族馆等"}
+  - {cat: "购物伴手礼", amount: "¥4,000-10,000", note: "化妆品/服饰/免税，弹性最大"}
+  - {cat: "杂项", amount: "¥800-1,500", note: "T-money卡/通讯/退税手续费"}
+
+timeline:
+  - day: 1
+    city: "首尔"
+    date: "2026-10-08"
+    weather: "晴 24~16℃ 微风"
+    items:
+      - {time: "上午 09:00", title: "天津✈首尔 出发", desc: "国航CA171 09:00天津滨海T1起飞(或KE806 11:30)，约2h抵仁川ICN。提前2-3h到，带好护照/签证。", photo: "airport_tianjin"}
+      - {time: "中午 12:00", title: "抵达首尔 · 入住明洞", desc: "仁川机场→明洞乘AREX直通列车(约43分钟)或机场大巴，换钱(明洞汇率好)，入住休整。", photo: "seoul_landmark", city: "首尔"}
+      - {time: "下午 15:00", title: "明洞购物初体验", desc: "化妆品一条街、小吃(炒年糕/炸鸡/鱼饼)，13岁女儿逛美妆、儿子爱小吃，先换好韩元。", photo: "myeongdong", city: "首尔"}
+      - {time: "晚上 19:30", title: "N首尔塔夜景", desc: "南山缆车上看首尔夜景，锁墙打卡，全家拍照。", photo: "namsan", city: "首尔"}
+  - day: 2
+    city: "首尔"
+    date: "2026-10-09"
+    weather: "多云 22~16℃"
+    items:
+      - {time: "上午 10:00", title: "东大门 DDP + 批发购物", desc: "DDP设计广场拍照，东大门批发市场上午批发层、下午零售，服饰性价比高。", photo: "dongdaemun", city: "首尔"}
+      - {time: "下午 14:00", title: "乐天世界塔 Seoul Sky + 乐天世界", desc: "首尔最高观景台(117-123层)俯瞰全城；楼下乐天世界游乐场室内外设施，9岁13岁都玩得嗨。", photo: "lotte_tower", city: "首尔"}
+      - {time: "晚上 19:00", title: "明洞晚餐 + 补货", desc: "韩式炸鸡配啤酒，回明洞补买化妆品/零食。", photo: "myeongdong", city: "首尔"}
+  - day: 3
+    city: "首尔"
+    date: "2026-10-10"
+    weather: "晴 25~15℃"
+    items:
+      - {time: "上午 10:00", title: "弘大潮流街区", desc: "年轻人街区，潮牌/文具/咖啡/街头表演，13岁女儿最爱，儿子看热闹。", photo: "hongdae", city: "首尔"}
+      - {time: "下午 14:00", title: "COEX 星空图书馆 + 水族馆", desc: "星巴克星空图书馆拍照，COEX水族馆室内看鱼，雨天/避暑备选，孩子最爱。", photo: "coex", city: "首尔"}
+      - {time: "晚上 18:30", title: "江南站美食", desc: "江南站周边烤肉/部队锅，地铁方便，夜宵逛吃。", photo: "seoul_landmark", city: "首尔"}
+  - day: 4
+    city: "首尔"
+    date: "2026-10-11"
+    weather: "多云 23~16℃"
+    items:
+      - {time: "上午 10:00", title: "景福宫 + 北村韩屋", desc: "穿韩服免费入场(可租赁)，北村韩屋村散步，文化体验+全家韩服照。", photo: "gyeongbokgung", city: "首尔"}
+      - {time: "中午 12:30", title: "广藏市场美食", desc: "绿豆煎饼/紫菜包饭/生拌牛肉，地道小吃集中，物美价廉。", photo: "gwangjang", city: "首尔"}
+      - {time: "下午 15:00", title: "仁寺洞 传统伴手礼", desc: "传统茶具/扇子/人参/韩服小物，伴手礼首选；免税店预约提货。", photo: "insadong", city: "首尔"}
+      - {time: "晚上 19:00", title: "汉江公园(可选)", desc: "骑行/野餐/夜景，家庭放松收尾。", photo: "seoul_landmark", city: "首尔"}
+  - day: 5
+    city: "返程"
+    date: "2026-10-12"
+    weather: "晴 22~15℃"
+    items:
+      - {time: "上午 09:30", title: "免税店最后采购 / 提货", desc: "新罗/乐天免税店提货(之前网上下单)，补买化妆品，确认退税单。", photo: "duty_free", city: "首尔"}
+      - {time: "中午 11:30", title: "前往仁川机场", desc: "AREX/大巴，提前3h到；机场退税(海关盖章+自助退税机)，预留时间。", photo: "airport_seoul", city: "首尔"}
+      - {time: "下午 12:35", title: "飞机返津 · KE803", desc: "12:35仁川T2起飞→13:30抵天津T1(或OZ/CA)，结束旅程。", photo: "airport_tianjin", city: "返程"}
+
+tips:
+  kids:
+    - "证件：护照有效期需6个月以上；中国大陆赴首尔一般需签证，务必提前办妥(济州才免签)"
+    - "通讯：租韩游WiFi蛋/雪花卡或开通国际漫游；给孩子备电话手表/定位"
+    - "交通：买T-money卡(地铁公交通用)，仁川机场AREX直通明洞最方便"
+    - "9岁儿子：乐天世界部分项目有身高限制，提前确认；备常用药"
+    - "13岁女儿：明洞/弘大美妆逛街兴趣高，给预算让她自主选购"
+    - "行李：薄外套/卫衣(10月早晚15℃左右)、折叠伞、水壶、零食；每天留午休"
+  booking:
+    - "乐天世界/首尔塔可提前网购优惠票"
+    - "景福宫穿韩服免费入场(可现场租赁)"
+    - "免税店提前官网/APP下单，机场提货更划算"
+    - "明洞热门餐厅可提前取号，避开饭点高峰"
+  pitfalls:
+    - "换钱：明洞换钱所汇率优于机场，机场先换少量应急"
+    - "免税店：部分需机场提货，别在市区拿错；保留护照+小票退税"
+    - "出租车：黑色模范出租车贵，用Kakao T/网约车；认准橙色/银色普通出租"
+    - "谨防明洞'免费皮肤测试'拉客，理性消费"
+    - "满额退税：免税店当场退或机场退，保留所有小票"
+
+food:
+  - title: "首尔 · 必吃美食"
+    items:
+      - {name: "韩式炸鸡+啤酒", desc: "치킨맥주，夜宵标配", emoji: "🍗"}
+      - {name: "烤肉(五花/韩牛)", desc: "삼겹살/한우，明洞/江南", emoji: "🥩"}
+      - {name: "部队锅", desc: "부대찌개，芝士拉丝", emoji: "🍲"}
+      - {name: "辣炒年糕", desc: "떡볶이，街头小吃", emoji: "🌶️"}
+      - {name: "冷面", desc: "냉면，秋日清爽", emoji: "🍜"}
+      - {name: "参鸡汤", desc: "삼계탕，滋补暖身", emoji: "🍲"}
+      - {name: "紫菜包饭/鱼饼", desc: "김밥/어묵，广藏市场", emoji: "🍙"}
+      - {name: "酱蟹/生鱼片", desc: "Noryangjin水产市场", emoji: "🦀"}
+  - title: "首尔 · 逛吃街区"
+    items:
+      - {name: "广藏市场", desc: "小吃集中，地道便宜", emoji: "🥟"}
+      - {name: "明洞", desc: "炸鸡/小吃/美妆一体", emoji: "🛍️"}
+      - {name: "弘大", desc: "潮流+夜市+街头表演", emoji: "🎸"}
+      - {name: "江南站/新沙", desc: "网红咖啡/甜品", emoji: "☕"}
+      - {name: "圣水洞", desc: "工业风咖啡街区", emoji: "☕"}
+  - title: "首尔 · 伴手礼/购物"
+    items:
+      - {name: "化妆品", desc: "雪花秀/后/3CE/innisfree", emoji: "💄"}
+      - {name: "服饰潮牌", desc: "弘大/东大门性价比高", emoji: "👕"}
+      - {name: "红参/人参", desc: "正官庄等老字号", emoji: "🌿"}
+      - {name: "海苔/零食", desc: "便利店必买", emoji: "🍙"}
+      - {name: "传统工艺品", desc: "仁寺洞扇子/韩服小物", emoji: "🪭"}
+      - {name: "免税店", desc: "新罗/乐天，机场提货", emoji: "🛍️"}
+
+highlights:
+  - {name: "乐天世界 Lotte World", emoji: "🎡", desc: "室内外游乐场，9岁13岁都爱，紧邻Seoul Sky", img: "lotte_tower"}
+  - {name: "N首尔塔 N Seoul Tower", emoji: "🗼", desc: "南山缆车+城市夜景，锁墙打卡", img: "namsan"}
+  - {name: "COEX 水族馆", emoji: "🐠", desc: "室内水族馆，雨天备选，孩子最爱", img: "coex"}
+  - {name: "景福宫+北村韩屋", emoji: "🏯", desc: "穿韩服免费入场，文化体验", img: "gyeongbokgung"}
+  - {name: "汉江公园", emoji: "🌳", desc: "骑行/野餐/夜景，家庭放松", img: "seoul_landmark"}
+  - {name: "广藏市场", emoji: "🥟", desc: "地道小吃集中，吃货必去", img: "gwangjang"}
